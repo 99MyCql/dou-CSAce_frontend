@@ -1,24 +1,5 @@
-# doucsace
+# douCSAce
 
-## Project setup
-```
-npm install
-```
+douCSAce 前端。
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+模板来源：[https://www.creative-tim.com/product/vue-argon-dashboard](https://www.creative-tim.com/product/vue-argon-dashboard)
