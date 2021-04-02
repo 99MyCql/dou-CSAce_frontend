@@ -28,12 +28,12 @@
 
       <div class="row mt-5">
         <div class="col">
-          <venue-table :tableData="tableData"></venue-table>
+          <venue-table></venue-table>
         </div>
       </div>
 
       <div class="row mt-5">
-        <div class="col">
+        <div class="col-md-6">
           <top-table title="Top 作者" :tableData="tableData">
             <template v-slot:columns>
               <th>Page name</th>
@@ -43,7 +43,7 @@
             </template>
           </top-table>
         </div>
-        <div class="col">
+        <div class="col-md-6 mt-5 mt-md-0">
           <top-table title="Top 论文" :tableData="tableData">
             <template v-slot:columns>
               <th>Page name</th>
@@ -127,28 +127,7 @@ export default {
           unique: "319",
           bounceRate: "46,53%",
           bounceRateDirection: "down",
-        },
-        {
-          page: "/argon/charts.html",
-          visitors: "3,513",
-          unique: "294",
-          bounceRate: "36,49%",
-          bounceRateDirection: "down",
-        },
-        {
-          page: "/argon/tables.html",
-          visitors: "2,050",
-          unique: "147",
-          bounceRate: "50,87%",
-          bounceRateDirection: "up",
-        },
-        {
-          page: "/argon/profile.html",
-          visitors: "1,795",
-          unique: "190",
-          bounceRate: "46,53%",
-          bounceRateDirection: "down",
-        },
+        }
       ],
     }
   },

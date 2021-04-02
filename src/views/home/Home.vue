@@ -29,49 +29,18 @@
       <div class="container-fluid mt--5">
         <!-- 数据概览 -->
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-3" v-for="(item, index) in overview" :key="index">
             <stats-card
-              title="350,897"
-              sub-title="Author"
-              class="mb-4 mb-xl-0"
-              iconClass="bg-gradient-green"
-              iconSrc="img\icons\author.svg"
-            />
-          </div>
-
-          <div class="col-md-3">
-            <stats-card
-              title="322,356"
-              sub-title="Paper"
-              class="mb-4 mb-xl-0"
-              iconClass="bg-gradient-green"
-              iconSrc="img\icons\paper.svg"
-            />
-          </div>
-
-          <div class="col-md-3">
-            <stats-card
-              title="924"
-              sub-title="Conference"
-              class="mb-4 mb-xl-0"
-              iconClass="bg-gradient-green"
-              iconSrc="img\icons\conference.svg"
-            />
-          </div>
-
-          <div class="col-md-3">
-            <stats-card
-              title="935"
-              sub-title="Journal"
-              class="mb-4 mb-xl-0"
-              iconClass="bg-gradient-green"
-              iconSrc="img\icons\journal.svg"
+              :title="item.title"
+              :subTitle="item.subTitle"
+              :iconClass="item.iconClass"
+              :iconSrc="item.iconSrc"
             />
           </div>
         </div>
 
         <!-- 研究方向对比分析图 -->
-        <div class="row mt-2 mt-lg-5">
+        <div class="row mt-5">
           <div class="col">
             <div class="card bg-default">
               <div class="card-header bg-transparent">
@@ -134,6 +103,32 @@ export default {
   },
   data() {
     return {
+      overview: [
+        {
+          title: "350,897",
+          subTitle: "Author",
+          iconClass: "bg-gradient-green",
+          iconSrc: "img\\icons\\author.svg",
+        },
+        {
+          title: "322,356",
+          subTitle: "Paper",
+          iconClass: "bg-gradient-green",
+          iconSrc: "img\\icons\\paper.svg",
+        },
+        {
+          title: "924",
+          subTitle: "Conference",
+          iconClass: "bg-gradient-green",
+          iconSrc: "img\\icons\\conference.svg",
+        },
+        {
+          title: "935",
+          subTitle: "Journal",
+          iconClass: "bg-gradient-green",
+          iconSrc: "img\\icons\\journal.svg",
+        },
+      ],
       fieldCompChartID: "fieldCompChart",
       fields: [
         {
