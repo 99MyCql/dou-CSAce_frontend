@@ -18,3 +18,5 @@ app.use(store)
 app.use(ElementPlus)
 app.mount("#app")
 app.config.globalProperties.$echarts = echarts
+
+export default app;

@@ -92,6 +92,10 @@ import StatsCard from "./StatsCard";
 import BaseInput from "@/components/BaseInput";
 import ContentNavbar from "@/components/ContentNavbar.vue";
 import ContentFooter from "@/components/ContentFooter.vue";
+import { getCount as getAuthorCount } from '@/api/author.js';
+import { getCount as getPaperCount } from '@/api/paper.js';
+import { getCount as getConfSeriesCount } from '@/api/confSeries.js';
+import { getCount as getJournalCount } from '@/api/journal.js';
 
 export default {
   name: 'Home',
@@ -105,25 +109,25 @@ export default {
     return {
       overview: [
         {
-          title: "350,897",
+          title: "",
           subTitle: "Author",
           iconClass: "bg-gradient-green",
           iconSrc: "img\\icons\\author.svg",
         },
         {
-          title: "322,356",
+          title: "",
           subTitle: "Paper",
           iconClass: "bg-gradient-green",
           iconSrc: "img\\icons\\paper.svg",
         },
         {
-          title: "924",
+          title: "",
           subTitle: "Conference",
           iconClass: "bg-gradient-green",
           iconSrc: "img\\icons\\conference.svg",
         },
         {
-          title: "935",
+          title: "",
           subTitle: "Journal",
           iconClass: "bg-gradient-green",
           iconSrc: "img\\icons\\journal.svg",
@@ -173,9 +177,6 @@ export default {
         },
       ]
     }
-  },
-  mounted() {
-    this.fieldCompChartInit();
   },
   methods: {
     fieldCompChartInit() {
@@ -261,7 +262,49 @@ export default {
     },
     routeToField() {
       this.$router.push('/field')
+    },
+    numToStr(num) {
+      return num.toString().replace(/\d{1,3}(?=(\d{3})+$)/g,function(s){
+        return s+','
+      })
+    },
+    getOverview() {
+      let that = this;
+      getAuthorCount()
+        .then(function(rsp) {
+          that.overview[0].title = that.numToStr(rsp.data.data);
+        })
+        .catch(function(err) {
+          console.error(err);
+        });
+      getPaperCount()
+        .then(function(rsp) {
+          that.overview[1].title = that.numToStr(rsp.data.data);
+        })
+        .catch(function(err) {
+          console.error(err);
+        });
+      getConfSeriesCount()
+        .then(function(rsp) {
+          that.overview[2].title = that.numToStr(rsp.data.data);
+        })
+        .catch(function(err) {
+          console.error(err);
+        });
+      getJournalCount()
+        .then(function(rsp) {
+          that.overview[3].title = that.numToStr(rsp.data.data);
+        })
+        .catch(function(err) {
+          console.error(err);
+        });
     }
+  },
+  mounted() {
+    this.fieldCompChartInit();
+  },
+  created() {
+    this.getOverview();
   }
 }
 </script>
