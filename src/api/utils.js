@@ -9,12 +9,12 @@ const SERVER_ERR_CODE = 2; // 服务端端出现错误
 const rspDataFilter = function(data) {
   if (data.code === SUC_CODE) {
     // 成功
-    if (data.msg != "" || data.msg != "success") {
-      app.config.globalProperties.$message.success({
-        message: data.msg,
-      });
+    if (data.msg === "" || data.msg === "success") {
+      return true;
     }
-    return true;
+    app.config.globalProperties.$message.success({
+      message: data.msg,
+    });
   } else if (data.code === CLIENT_ERR_CODE) {
     // 客户端错误
     app.config.globalProperties.$message.error({

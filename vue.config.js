@@ -6,7 +6,7 @@ module.exports = {
     proxy: {
       // 匹配所有以 /api 开头的url
       "/api": {
-        target: "http://localhost:8080",
+        target: "http://0.0.0.0:8080",
         changeOrigin: true,
         ws: true
       }

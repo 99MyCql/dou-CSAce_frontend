@@ -58,14 +58,13 @@
 
     <content-footer></content-footer>
   </div>
-
 </template>
 
 <script>
 import ContentNavbar from "@/components/ContentNavbar";
 import ContentFooter from "@/components/ContentFooter";
+import TopTable from "@/components/TopTable";
 import VenueTable from "./VenueTable";
-import TopTable from "./TopTable";
 
 export default {
   name: 'Field',

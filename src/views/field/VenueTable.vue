@@ -37,7 +37,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in tableData" :key="index" class="my-tr" @click="routeTo('/')">
+          <tr v-for="(item, index) in tableData" :key="index" class="my-tr" @click="routeTo('/venue')">
             <th>
               <i
               class="fa fa-bookmark mr-3"
