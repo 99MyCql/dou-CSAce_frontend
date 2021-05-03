@@ -2,9 +2,9 @@ import app from "../main";
 
 // 后端返回数据示例：{code: 0, msg: "success", data: 261}
 
-const SUC_CODE = 0; // 成功
-const CLIENT_ERR_CODE = 1; // 客户端出现错误
-const SERVER_ERR_CODE = 2; // 服务端端出现错误
+const SUC_CODE = 200; // 成功
+const CLIENT_ERR_CODE = 400; // 客户端出现错误
+const SERVER_ERR_CODE = 500; // 服务端端出现错误
 
 const rspDataFilter = function(data) {
   if (data.code === SUC_CODE) {

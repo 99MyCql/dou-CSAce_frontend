@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <paper-table></paper-table>
+      <paper-table class="mt-6"></paper-table>
 
     </div>
 

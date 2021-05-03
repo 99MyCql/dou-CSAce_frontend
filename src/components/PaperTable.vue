@@ -26,8 +26,8 @@
       <div v-for="(paper, index) in papers" :key="index">
         <div class="card mt-3" style="cursor: pointer;">
           <div class="card-body">
-            <div class="card-title h2">{{ paper.name }}</div>
-            <p class="card-text">{{ paper.zhName }}</p>
+            <div class="card-title h2 mb-1">{{ paper.name }}</div>
+            <p class="card-text">{{ paper.authors }}</p>
           </div>
         </div>
       </div>
@@ -56,44 +56,44 @@ export default {
       category: [],
       papers: [
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
         {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
+          name: "A Style-Based Generator Architecture for Generative Adversarial Networks",
+          authors: "Tero Karras, Samuli Laine, Timo Aila",
         },
       ]
     };

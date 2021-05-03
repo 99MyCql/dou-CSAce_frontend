@@ -11,8 +11,7 @@
               科研快速入门辅助系统
             </h1>
             <p class="mb-4 px-md-9 text-white-50 text-center">
-              致力于保家卫国、开疆扩土、一统天下。
-              <!-- 设计一个论文数据系统，能够基于论文不同研究方向呈现学术研究热点趋势以及相关方向的重要论文、学者信息，并能可视化呈现。 -->
+              设计一个论文数据系统，能够基于论文不同研究方向呈现学术研究热点趋势以及相关方向的重要论文、学者信息，并能可视化呈现。
             </p>
             <form class="navbar-search navbar-search-dark form-inline d-flex justify-content-center">
               <base-input
@@ -29,7 +28,7 @@
       <div class="container-fluid mt--5">
         <!-- 数据概览 -->
         <div class="row">
-          <div class="col-md-3" v-for="(item, index) in overview" :key="index">
+          <div class="col-md-3 mb-3" v-for="(item, index) in overview" :key="index">
             <stats-card
               :title="item.title"
               :subTitle="item.subTitle"
@@ -48,10 +47,36 @@
                   <div class="col">
                     <h5 class="h3 text-white mb-0 ls-1">各研究方向对比</h5>
                   </div>
+                  <div class="col">
+                    <ul class="nav nav-pills justify-content-end">
+                      <li class="nav-item mr-2 mr-md-0">
+                        <a
+                          class="nav-link py-2 px-3"
+                          href="#"
+                          :class="{ active: fieldCompChart.activeType === 'P' }"
+                          @click.prevent="setChartData('P')"
+                        >
+                          <span class="d-none d-md-block">Paper</span>
+                          <span class="d-md-none">P</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link py-2 px-3"
+                          href="#"
+                          :class="{ active: fieldCompChart.activeType === 'C' }"
+                          @click.prevent="setChartData('C')"
+                        >
+                          <span class="d-none d-md-block">Citation</span>
+                          <span class="d-md-none">C</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               <div class="card-body">
-                <div style="height: 400px" :id="fieldCompChartID"></div>
+                <div style="height: 600px" :id="fieldCompChart.id"></div>
               </div>
             </div>
           </div>
@@ -69,11 +94,11 @@
           </div>
 
           <div class="row mt-2 mt-lg-5">
-            <div class="col-md-3 mb-3" v-for="field in fields" :key="field.name">
+            <div class="col-md-4 mb-3" v-for="field in fields" :key="field.name">
               <div class="card card-lift--hover shadow" style="cursor: pointer;" @click="routeToField">
                 <div class="card-body">
-                  <div class="card-title h2">{{ field.name }}</div>
-                  <p class="card-text">{{ field.zhName }}</p>
+                  <div class="card-title h2 text-truncate">{{ field.name }}</div>
+                  <p class="card-text text-truncate">{{ field.zhName }}</p>
                 </div>
               </div>
             </div>
@@ -96,6 +121,9 @@ import { getCount as getAuthorCount } from '@/api/author.js';
 import { getCount as getPaperCount } from '@/api/paper.js';
 import { getCount as getConfSeriesCount } from '@/api/confSeries.js';
 import { getCount as getJournalCount } from '@/api/journal.js';
+import { list as listField } from '@/api/field.js';
+
+var fieldCompChart = null;
 
 export default {
   name: 'Home',
@@ -133,83 +161,84 @@ export default {
           iconSrc: "img\\icons\\journal.svg",
         },
       ],
-      fieldCompChartID: "fieldCompChart",
-      fields: [
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-        {
-          name: "Computer Architecture",
-          zhName: "计算机体系结构/并行与分布计算/存储系统",
-        },
-      ]
+      fieldCompChart: {
+        id: "fieldCompChart",
+        activeType: "C",
+        echart: null,
+        xAxisData: Array.from({length:2021-1935},(item, i)=> 1935+i)
+      },
+      fields: [],
     }
   },
   methods: {
+    setChartData(activeType) {
+      this.fieldCompChart.activeType = activeType
+      let series = []
+      if (activeType === "C") {
+        this.fields.forEach(e => {
+          let data = []
+          this.fieldCompChart.xAxisData.forEach(year => {
+            data.push(e.citCountPYear[year.toString()])
+          });
+          series.push({
+            name: e.zhName,
+            type: 'line',
+            data: data,
+            smooth: true,
+            lineStyle: {
+              type: "solid",
+              width: 4
+            }
+          })
+        });
+      } else if (activeType === "P") {
+        this.fields.forEach(e => {
+          let data = []
+          this.fieldCompChart.xAxisData.forEach(year => {
+            data.push(e.paperCountPYear[year.toString()])
+          });
+          series.push({
+            name: e.zhName,
+            type: 'line',
+            data: data,
+            smooth: true,
+            lineStyle: {
+              type: "solid",
+              width: 4
+            }
+          })
+        });
+      }
+      console.log(series)
+      fieldCompChart.setOption({series: series})
+    },
     fieldCompChartInit() {
       // 基于准备好的dom，初始化echarts实例
-      let fieldCompChart = this.$echarts.init(document.getElementById(this.fieldCompChartID), 'light')
+      fieldCompChart = this.$echarts.init(document.getElementById(this.fieldCompChart.id), 'light')
       // 绘制图表
       fieldCompChart.setOption({
         tooltip: {
           trigger: 'axis',
           show: true,
-          axisPointer: {
-            type: "none"
-          }
         },
         textStyle: {
           color: '#fff'
         },
         legend: {
-          data: ['邮件营销', '联盟广告'],
           textStyle: {
             color: "#fff"
           }
         },
         grid: {
-          left: "8%",
+          left: "10%",
           right: "5%",
-          top: "5%",
-          bottom: "10%"
+          top: "20%",
+          bottom: "15%"
         },
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+          data: this.fieldCompChart.xAxisData,
           splitLine: {
             show:false
           },
@@ -219,7 +248,7 @@ export default {
           axisLabel: {
             color: "rgba(136, 152, 170, 1)"
           },
-          offset: 5
+          // offset: 5
         },
         yAxis: {
           type: 'value',
@@ -234,30 +263,11 @@ export default {
           },
           offset: 5
         },
-        series: [
-          {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210],
-            smooth: true,
-            lineStyle: {
-              type: "solid",
-              width: 4
-            }
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310],
-            smooth: true,
-            lineStyle: {
-              type: "solid",
-              width: 4
-            }
-          },
-        ]
+        dataZoom: [{
+          type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+          start: 80,      // 左边在的位置。
+          end: 100        // 右边在的位置。
+        }],
       })
     },
     routeToField() {
@@ -298,13 +308,27 @@ export default {
         .catch(function(err) {
           console.error(err);
         });
+    },
+    getFields() {
+      let that = this;
+      listField()
+        .then(function(rsp) {
+          that.fields = rsp.data.data;
+          that.fieldCompChartInit();
+          that.setChartData("P");
+        })
+        .catch(function(err) {
+          console.error(err);
+        });
     }
   },
+  computed: {
+  },
   mounted() {
-    this.fieldCompChartInit();
+    this.getOverview();
+    this.getFields();
   },
   created() {
-    this.getOverview();
   }
 }
 </script>
