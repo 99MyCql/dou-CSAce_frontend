@@ -21,10 +21,10 @@
         <li class="nav-item nav-link dropdown">
           <div class="media align-items-center" style="cursor: pointer;" :aria-expanded="avatarOpen" @click="avatarOpen = !avatarOpen">
             <span class="avatar avatar-sm rounded-circle">
-              <img src="img/team-1-800x800.jpg"/>
+              <img src="/img/team-1-800x800.jpg"/>
             </span>
             <div class="media-body ml-2">
-              <span class="mb-0 text-sm font-weight-bold">Jessica Jones</span>
+              <span class="mb-0 text-sm font-weight-bold">dounine</span>
             </div>
           </div>
 

@@ -95,10 +95,20 @@
 
           <div class="row mt-2 mt-lg-5">
             <div class="col-md-4 mb-3" v-for="field in fields" :key="field.name">
-              <div class="card card-lift--hover shadow" style="cursor: pointer;" @click="routeToField">
+              <div class="card card-lift--hover shadow" style="cursor: pointer;" @click="routeToField(field._key)">
                 <div class="card-body">
                   <div class="card-title h2 text-truncate">{{ field.name }}</div>
                   <p class="card-text text-truncate">{{ field.zhName }}</p>
+                </div>
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col card-text">
+                      <span class="text-muted">论文数：</span>{{ numToStr(field.paperCount) }}
+                    </div>
+                    <div class="col">
+                      <span class="text-muted">被引用数：</span>{{ numToStr(field.citationCount) }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -163,8 +173,7 @@ export default {
       ],
       fieldCompChart: {
         id: "fieldCompChart",
-        activeType: "C",
-        echart: null,
+        activeType: "P",
         xAxisData: Array.from({length:2021-1935},(item, i)=> 1935+i)
       },
       fields: [],
@@ -270,8 +279,8 @@ export default {
         }],
       })
     },
-    routeToField() {
-      this.$router.push('/field')
+    routeToField(key) {
+      this.$router.push(`/field/${key}`)
     },
     numToStr(num) {
       return num.toString().replace(/\d{1,3}(?=(\d{3})+$)/g,function(s){
@@ -321,8 +330,6 @@ export default {
           console.error(err);
         });
     }
-  },
-  computed: {
   },
   mounted() {
     this.getOverview();

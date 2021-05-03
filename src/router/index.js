@@ -14,7 +14,7 @@ const routes = [
     component: Home,
   },
   {
-    path: '/field',
+    path: '/field/:key',
     component: Field,
   },
   {
