@@ -8,7 +8,7 @@ var myAxios = axios.create();
 // 添加请求拦截器
 myAxios.interceptors.request.use(
   function(config) {
-    console.info("===> request:", config.url, config);
+    console.info("<=== request:", config.url, config);
     return config;
   },
   function(error) {
@@ -22,7 +22,7 @@ myAxios.interceptors.request.use(
 myAxios.interceptors.response.use(
   resp => {
     let data = resp.data; // 获取后端返回的数据
-    console.info("<=== response:", resp.config.url, resp.data);
+    console.info("===> response:", resp.config.url, resp.data);
 
     if (rspDataFilter(data) === true) {
       return resp; // 转由.then()接收

@@ -4,14 +4,16 @@
 
     <!-- your content here -->
     <div class="container-fluid">
+      <!-- 页首面包屑导航 -->
       <el-breadcrumb separator-class="el-icon-arrow-right" class="h3 border-bottom mt-3 py-3">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>{{fieldKey.slice(2)}}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ fieldKey.slice(2).replace(/_/g, " ") }}</el-breadcrumb-item>
       </el-breadcrumb>
 
 
       <div class="row mt-5">
-        <div class="col-lg-6">
+        <!-- 会议/期刊列表 -->
+        <div class="col-lg-5">
           <div class="card">
             <div class="card-header border-bottom">
               <div class="row align-items-center">
@@ -19,8 +21,16 @@
                   <div class="h3 mb-0">会议/期刊列表</div>
                 </div>
                 <div class="col-md-8 d-md-flex justify-content-end align-items-center">
-                  <div class="btn btn-sm btn-secondary mt-2 mt-md-0" @click="clearFilter">清除筛选</div>
-                  <div class="btn btn-sm btn-secondary mt-2 mt-md-0" @click="clearSelection">取消选择</div>
+                  <div
+                    class="btn btn-sm btn-secondary mt-2 mt-md-0"
+                    @click="this.$refs.venueTable.clearFilter();">
+                    清除筛选
+                  </div>
+                  <div
+                    class="btn btn-sm btn-secondary mt-2 mt-md-0"
+                    @click="this.$refs.venueTable.clearSelection()">
+                    取消选择
+                  </div>
                   <div class="btn btn-sm btn-primary mt-2 mt-md-0" @click="cmpVenue">对比所选项</div>
                 </div>
               </div>
@@ -49,12 +59,14 @@
                 :filter-method="(value, row) => {return row._id.split('/')[0] === value}"
                 filter-placement="bottom-end">
                 <template #default="scope">
-                  <div style="font-weight: 600;">
+                  <div style="font-weight: 600;cursor: pointer;" @click="routeToVenue(scope.row)">
                     <i
                       class="fa fa-bookmark mr-1"
                       :class="scope.row._id.split('/')[0] === 'journals' ? 'text-danger' : 'text-primary'"
                     ></i>
                     {{ scope.row._key }}
+                    <i class="fas fa-external-link-alt ml-1 text-muted"></i>
+                    <!-- <i class="fas fa-link ml-1 text-muted"></i> -->
                   </div>
                 </template>
               </el-table-column>
@@ -94,7 +106,8 @@
           </div>
         </div>
 
-        <div class="col-lg-6 mt-5 mt-lg-0">
+        <!-- 会议/期刊对比 -->
+        <div class="col-lg-7 mt-5 mt-lg-0">
           <div class="card bg-default">
             <div class="card-header bg-transparent">
               <div class="row align-items-center">
@@ -108,8 +121,7 @@
                         class="nav-link py-2 px-3"
                         href="#"
                         :class="{ active: venueCmpChart.activeType === 'P' }"
-                        @click.prevent="setChartData('P')"
-                      >
+                        @click.prevent="setChartData('P')">
                         <span class="d-none d-md-block">Paper</span>
                         <span class="d-md-none">P</span>
                       </a>
@@ -119,8 +131,7 @@
                         class="nav-link py-2 px-3"
                         href="#"
                         :class="{ active: venueCmpChart.activeType === 'C' }"
-                        @click.prevent="setChartData('C')"
-                      >
+                        @click.prevent="setChartData('C')">
                         <span class="d-none d-md-block">Citation</span>
                         <span class="d-md-none">C</span>
                       </a>
@@ -138,112 +149,22 @@
 
 
       <div class="row mt-5">
+        <!-- Top作者 -->
         <div class="col-md-6">
-          <div class="card">
-            <div class="card-header border-bottom">
-              <div class="row align-items-center">
-                <div class="col text-center">
-                  <div class="h3 mb-0">Top作者</div>
-                </div>
-              </div>
-            </div>
-            <el-table
-              v-loading="topAuthorTable.loading"
-              :data="topAuthorTable.authors"
-              highlight-current-row
-              max-height="400px"
-              cell-class-name="pl-2"
-              header-cell-class-name="pl-2"
-              :header-cell-style="{'background-color': '#f6f9fc', 'color': '#8898aa'}">
-              <el-table-column
-                prop="name"
-                label="Name"
-                min-width="160"
-                show-overflow-tooltip>
-              </el-table-column>
-              <el-table-column
-                prop="paperCount"
-                label="Paper"
-                min-width="130">
-              </el-table-column>
-              <el-table-column
-                prop="citationCount"
-                label="Citation"
-                min-width="130">
-              </el-table-column>
-            </el-table>
-            <div class="card-footer d-flex justify-content-center bg-transparent">
-              <el-pagination
-                background
-                :pager-count="3"
-                layout="prev, pager, next"
-                :total="100"
-                @current-change="topAuthorTableChang">
-              </el-pagination>
-            </div>
-          </div>
+          <top-author-table
+            :authors="topAuthorTable.authors"
+            :loading="topAuthorTable.loading"
+            :topAuthorTableChang="topAuthorTableChang">
+          </top-author-table>
         </div>
 
+        <!-- Top论文 -->
         <div class="col-md-6 mt-5 mt-md-0">
-          <div class="card">
-            <div class="card-header border-bottom">
-              <div class="row align-items-center">
-                <div class="col text-center">
-                  <div class="h3 mb-0">Top论文</div>
-                </div>
-              </div>
-            </div>
-            <el-table
-              v-loading="topPaperTable.loading"
-              :data="topPaperTable.papers"
-              highlight-current-row
-              max-height="400px"
-              cell-class-name="pl-2"
-              header-cell-class-name="pl-2"
-              :header-cell-style="{'background-color': '#f6f9fc', 'color': '#8898aa'}">
-              <el-table-column
-                prop="title"
-                label="Title"
-                min-width="300"
-                show-overflow-tooltip>
-                <template #default="scope">
-                  <div style="font-weight: 600;">
-                    <i
-                      class="fa fa-bookmark mr-1"
-                      :class="scope.row.type === 1 ? 'text-danger' : 'text-primary'"
-                    ></i>
-                    {{ scope.row.title }}
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column
-                label="Venue"
-                min-width="80">
-                <template #default="scope">
-                  {{ scope.row._id.split('-')[1].toUpperCase() }}
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="year"
-                label="Year"
-                min-width="70">
-              </el-table-column>
-              <el-table-column
-                prop="citationCount"
-                label="Citation"
-                min-width="130">
-              </el-table-column>
-            </el-table>
-            <div class="card-footer d-flex justify-content-center bg-transparent">
-              <el-pagination
-                background
-                :pager-count="3"
-                layout="prev, pager, next"
-                :total="100"
-                @current-change="topPaperTableChang">
-              </el-pagination>
-            </div>
-          </div>
+          <top-paper-table
+            :papers="topPaperTable.papers"
+            :loading="topPaperTable.loading"
+            :topPaperTableChang="topPaperTableChang">
+          </top-paper-table>
         </div>
       </div>
     </div>
@@ -253,31 +174,90 @@
 </template>
 
 <script>
-import ContentNavbar from "@/components/ContentNavbar";
-import ContentFooter from "@/components/ContentFooter";
-import { listVenue, listAuthor, listPaper } from '@/api/field.js';
 import { ElMessage } from 'element-plus'
+import ContentNavbar from "@/components/ContentNavbar"
+import ContentFooter from "@/components/ContentFooter"
+import TopAuthorTable from "@/components/TopAuthorTable"
+import TopPaperTable from "@/components/TopPaperTable"
+import { listVenue, listAuthor, listPaper } from '@/api/field.js'
 
-var venueCmpChart = null;
+var venueCmpChart = null
 
 export default {
   name: 'Field',
   components: {
     ContentNavbar,
     ContentFooter,
+    TopAuthorTable,
+    TopPaperTable,
+  },
+  props: {
+    fieldKey: String
   },
   data() {
     return {
-      fieldKey: this.$route.params.key,
       venueTable: {
         venues: [],
         selectCount: 0,
       },
       venueCmpChart: {
-        cmpVenues: [],
         id: "venueCmpChart",
+        xAxisData: Array.from({length:2021-1935},(item, i)=> 1935+i),
+        options: {
+          tooltip: {
+            trigger: 'axis',
+            show: true,
+          },
+          textStyle: {
+            color: '#fff'
+          },
+          legend: {
+            textStyle: {
+              color: "#fff"
+            }
+          },
+          grid: {
+            left: "10%",
+            right: "5%",
+            top: "20%",
+            bottom: "15%"
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: Array.from({length:2021-1935},(item, i)=> 1935+i),
+            splitLine: {
+              show:false
+            },
+            axisLine: {
+              show:false
+            },
+            axisLabel: {
+              color: "rgba(136, 152, 170, 1)"
+            },
+            // offset: 5
+          },
+          yAxis: {
+            type: 'value',
+            splitLine: {
+              show:false
+            },
+            axisLine: {
+              show:false
+            },
+            axisLabel: {
+              color: "rgba(136, 152, 170, 1)"
+            },
+            offset: 5
+          },
+          dataZoom: [{
+            type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+            start: 80,      // 左边在的位置。
+            end: 100        // 右边在的位置。
+          }],
+        },
         activeType: "P",
-        xAxisData: Array.from({length:2021-1935},(item, i)=> 1935+i)
+        cmpVenues: [],
       },
       topAuthorTable: {
         authors: [],
@@ -290,19 +270,42 @@ export default {
     }
   },
   methods: {
-    routeTo(path) {
-      this.$router.push(path)
+    routeToVenue(venue) {
+      console.log(venue)
+      let venuePage = null
+      if (venue._id.split('/')[0] === 'journals') {
+        venuePage = this.$router.resolve({
+        // this.$router.push({
+          name: 'Journal',
+          params: { jouKey: venue._key },
+          query: { fieldKey: this.fieldKey }
+        })
+      } else {
+        venuePage = this.$router.resolve({
+        // this.$router.push({
+          name: 'ConfInstance',
+          params: { confInsKey: venue._key },
+          query: { fieldKey: this.fieldKey }
+        })
+      }
+      window.open(venuePage.href);
+    },
+    venueCmpChartInit() {
+      // 基于准备好的dom，初始化echarts实例
+      venueCmpChart = this.$echarts.init(document.getElementById(this.venueCmpChart.id), 'light')
+      // 绘制图表
+      venueCmpChart.setOption(this.venueCmpChart.options)
     },
     setChartData(activeType) {
       this.venueCmpChart.activeType = activeType
-      let series = []
+      this.venueCmpChart.options.series = []
       if (activeType === "C") {
         this.venueCmpChart.cmpVenues.forEach(e => {
           let data = []
           this.venueCmpChart.xAxisData.forEach(year => {
             data.push(e.citCountPYear[year.toString()])
           });
-          series.push({
+          this.venueCmpChart.options.series.push({
             name: e.shortName,
             type: 'line',
             data: data,
@@ -319,7 +322,7 @@ export default {
           this.venueCmpChart.xAxisData.forEach(year => {
             data.push(e.paperCountPYear[year.toString()])
           });
-          series.push({
+          this.venueCmpChart.options.series.push({
             name: e.shortName,
             type: 'line',
             data: data,
@@ -331,66 +334,9 @@ export default {
           })
         });
       }
-      console.log(series)
-      venueCmpChart.setOption({series: series})
-    },
-    venueCmpChartInit() {
-      // 基于准备好的dom，初始化echarts实例
-      venueCmpChart = this.$echarts.init(document.getElementById(this.venueCmpChart.id), 'light')
-      // 绘制图表
-      venueCmpChart.setOption({
-        tooltip: {
-          trigger: 'axis',
-          show: true,
-        },
-        textStyle: {
-          color: '#fff'
-        },
-        legend: {
-          textStyle: {
-            color: "#fff"
-          }
-        },
-        grid: {
-          left: "10%",
-          right: "5%",
-          top: "20%",
-          bottom: "15%"
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: this.venueCmpChart.xAxisData,
-          splitLine: {
-            show:false
-          },
-          axisLine: {
-            show:false
-          },
-          axisLabel: {
-            color: "rgba(136, 152, 170, 1)"
-          },
-          // offset: 5
-        },
-        yAxis: {
-          type: 'value',
-          splitLine: {
-            show:false
-          },
-          axisLine: {
-            show:false
-          },
-          axisLabel: {
-            color: "rgba(136, 152, 170, 1)"
-          },
-          offset: 5
-        },
-        dataZoom: [{
-          type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-          start: 80,      // 左边在的位置。
-          end: 100        // 右边在的位置。
-        }],
-      })
+      console.log(this.venueCmpChart.options)
+      venueCmpChart.clear()
+      venueCmpChart.setOption(this.venueCmpChart.options)
     },
     getVenues() {
       let that = this
@@ -409,12 +355,6 @@ export default {
         return
       }
       this.setChartData("P")
-    },
-    clearFilter() {
-      this.$refs.venueTable.clearFilter();
-    },
-    clearSelection() {
-      this.$refs.venueTable.clearSelection();
     },
     getTopAuthor(page=0) {
       let that = this
@@ -453,17 +393,11 @@ export default {
   },
   mounted() {
     this.venueCmpChartInit()
+  },
+  created() {
     this.getVenues()
     this.getTopAuthor()
     this.getTopPaper()
-  },
+  }
 }
 </script>
-<style scoped>
-.my-tr {
-  cursor: pointer;
-}
-.my-tr:hover {
-  background-color: #f5f7fa;
-}
-</style>

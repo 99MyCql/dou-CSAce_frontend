@@ -95,7 +95,10 @@
 
           <div class="row mt-2 mt-lg-5">
             <div class="col-md-4 mb-3" v-for="field in fields" :key="field.name">
-              <div class="card card-lift--hover shadow" style="cursor: pointer;" @click="routeToField(field._key)">
+              <div
+                class="card card-lift--hover shadow"
+                style="cursor: pointer;"
+                @click="this.$router.push({ name: 'Field', params: { fieldKey: field._key }})">
                 <div class="card-body">
                   <div class="card-title h2 text-truncate">{{ field.name }}</div>
                   <p class="card-text text-truncate">{{ field.zhName }}</p>
@@ -279,9 +282,6 @@ export default {
         }],
       })
     },
-    routeToField(key) {
-      this.$router.push(`/field/${key}`)
-    },
     numToStr(num) {
       return num.toString().replace(/\d{1,3}(?=(\d{3})+$)/g,function(s){
         return s+','
@@ -331,11 +331,9 @@ export default {
         });
     }
   },
-  mounted() {
+  created() {
     this.getOverview();
     this.getFields();
   },
-  created() {
-  }
 }
 </script>

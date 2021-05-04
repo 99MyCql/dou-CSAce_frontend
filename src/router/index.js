@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '@/views/home/Home.vue'
-import Field from '@/views/field/Field.vue'
-import Venue from '@/views/venue/Venue.vue'
+import Field from '@/views/Field.vue'
+import Journal from '@/views/Journal.vue'
 
 const routes = [
   {
@@ -14,12 +14,19 @@ const routes = [
     component: Home,
   },
   {
-    path: '/field/:key',
+    name: 'Field',
+    path: '/field/:fieldKey',
     component: Field,
+    props: true,
   },
   {
-    path: '/venue',
-    component: Venue,
+    name: 'Journal',
+    path: '/journal/:jouKey',
+    component: Journal,
+    props: true,
+  },
+  {
+    path: '/conference/:key'
   }
 ]
 
