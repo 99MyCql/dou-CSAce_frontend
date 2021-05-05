@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Home from '@/views/home/Home.vue'
+import Home from '@/views/Home.vue'
 import Field from '@/views/Field.vue'
 import Journal from '@/views/Journal.vue'
+import ConfSeries from '@/views/ConfSeries.vue'
 
 const routes = [
   {
@@ -26,7 +27,10 @@ const routes = [
     props: true,
   },
   {
-    path: '/conference/:key'
+    name: 'ConfSeries',
+    path: '/confSeries/:confSerKey',
+    component: ConfSeries,
+    props: true,
   }
 ]
 

@@ -126,15 +126,16 @@
 </template>
 
 <script>
-import StatsCard from "./StatsCard";
-import BaseInput from "@/components/BaseInput";
-import ContentNavbar from "@/components/ContentNavbar.vue";
-import ContentFooter from "@/components/ContentFooter.vue";
-import { getCount as getAuthorCount } from '@/api/author.js';
-import { getCount as getPaperCount } from '@/api/paper.js';
-import { getCount as getConfSeriesCount } from '@/api/confSeries.js';
-import { getCount as getJournalCount } from '@/api/journal.js';
-import { list as listField } from '@/api/field.js';
+import StatsCard from "@/components/StatsCard"
+import BaseInput from "@/components/BaseInput"
+import ContentNavbar from "@/components/ContentNavbar.vue"
+import ContentFooter from "@/components/ContentFooter.vue"
+import { getCount as getAuthorCount } from '@/api/author.js'
+import { getCount as getPaperCount } from '@/api/paper.js'
+import { getCount as getConfSeriesCount } from '@/api/confSeries.js'
+import { getCount as getJournalCount } from '@/api/journal.js'
+import { list as listField } from '@/api/field.js'
+import { numToStr } from '@/util.js'
 
 var fieldCompChart = null;
 
@@ -283,9 +284,7 @@ export default {
       })
     },
     numToStr(num) {
-      return num.toString().replace(/\d{1,3}(?=(\d{3})+$)/g,function(s){
-        return s+','
-      })
+      return numToStr(num)
     },
     getOverview() {
       let that = this;

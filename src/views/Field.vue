@@ -275,16 +275,14 @@ export default {
       let venuePage = null
       if (venue._id.split('/')[0] === 'journals') {
         venuePage = this.$router.resolve({
-        // this.$router.push({
           name: 'Journal',
           params: { jouKey: venue._key },
           query: { fieldKey: this.fieldKey }
         })
       } else {
         venuePage = this.$router.resolve({
-        // this.$router.push({
-          name: 'ConfInstance',
-          params: { confInsKey: venue._key },
+          name: 'ConfSeries',
+          params: { confSerKey: venue._key },
           query: { fieldKey: this.fieldKey }
         })
       }

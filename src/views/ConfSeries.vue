@@ -9,35 +9,35 @@
         <el-breadcrumb-item v-if="fieldKey != ''">
           {{ fieldKey.slice(2).replace(/_/g, " ") }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item>{{ jouKey }}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ confSerKey }}</el-breadcrumb-item>
       </el-breadcrumb>
 
       <div class="row mt-5">
         <!-- 期刊简介 -->
-        <div class="col-lg-7" v-if="journal._key">
+        <div class="col-lg-7" v-if="confSeries._key">
           <div class="card h-100">
             <div class="card-body pt-6 pb-6 pl-5">
               <div>
                 <span class="icon icon-shape bg-danger">
-                  <img class="w-100 h-100" src="\img\icons\journal.svg" />
+                  <img class="w-100 h-100" src="\img\icons\conference.svg" />
                 </span>
-                <span class="text-dark display-3 mx-3">{{ journal.shortName }}</span>
-                <span class="text-dark display-3 pl-3 border-left">{{ journal.name }}</span>
+                <span class="text-dark display-3 mx-3">{{ confSeries.shortName }}</span>
+                <span class="text-dark display-3 pl-3 border-left">{{ confSeries.name }}</span>
               </div>
               <div class="pl-5">
-                <div class="h3 text-muted mt-5"><i class="fas fa-layer-group mr-3"></i>{{ journal.category }} 类</div>
-                <div class="h3 text-muted mt-3"><i class="fas fa-book mr-3"></i>{{ journal.publisher }}</div>
-                <div class="h3 text-muted mt-3"><i class="fas fa-external-link-square-alt mr-3"></i>{{ journal.url }}</div>
+                <div class="h3 text-muted mt-5"><i class="fas fa-layer-group mr-3"></i>{{ confSeries.category }} 类</div>
+                <div class="h3 text-muted mt-3"><i class="fas fa-book mr-3"></i>{{ confSeries.publisher }}</div>
+                <div class="h3 text-muted mt-3"><i class="fas fa-external-link-square-alt mr-3"></i>{{ confSeries.url }}</div>
               </div>
             </div>
             <div class="card-footer py-4" style="background: #f9fafc;">
               <div class="row d-flex align-items-end">
                 <div class="col-4 text-center">
-                  <div class="h1 card-title mb-0">{{ numToStr(journal.paperCount) }}</div>
+                  <div class="h1 card-title mb-0">{{ numToStr(confSeries.paperCount) }}</div>
                   <span class="text-muted mt-2 mb-0">Papers</span>
                 </div>
                 <div class="col-4 text-center">
-                  <div class="h1 card-title mb-0">{{ numToStr(journal.citationCount) }}</div>
+                  <div class="h1 card-title mb-0">{{ numToStr(confSeries.citationCount) }}</div>
                   <span class="text-muted mt-2 mb-0">Citations</span>
                 </div>
               </div>
@@ -88,7 +88,7 @@
       <paper-table
         :loading="paperTable.loading"
         :papers="paperTable.papers"
-        :paperCount="journal.paperCount"
+        :paperCount="confSeries.paperCount"
         :paperTableSelectChange="paperTableSelectChange"
         :paperTablePageChang="paperTablePageChang"></paper-table>
     </div>
@@ -103,7 +103,7 @@ import ContentFooter from "@/components/ContentFooter"
 import TopAuthorTable from "@/components/TopAuthorTable"
 import TopPaperTable from "@/components/TopPaperTable"
 import PaperTable from "@/components/PaperTable"
-import { get, listAuthor, listPaper } from '@/api/journal.js'
+import { get, listAuthor, listPaper } from '@/api/confSeries.js'
 import { listAuthor as listPaperAuthor, getPublishVenue } from '@/api/paper.js'
 import { numToStr } from '@/util.js'
 
@@ -119,12 +119,12 @@ export default {
     PaperTable,
   },
   props: {
-    jouKey: String,
+    confSerKey: String,
   },
   data() {
     return {
       fieldKey: this.$route.query.fieldKey,
-      journal: {},
+      confSeries: {},
       trendChart: {
         id: "trendChart",
         xAxisData: Array.from({length:2021-1935},(item, i)=> 1935+i),
@@ -210,7 +210,7 @@ export default {
       this.trendChart.options.series = []
       let data = []
       this.trendChart.xAxisData.forEach(year => {
-        data.push(this.journal.citCountPYear[year.toString()])
+        data.push(this.confSeries.citCountPYear[year.toString()])
       });
       this.trendChart.options.series.push({
         name: 'Citation',
@@ -224,7 +224,7 @@ export default {
       })
       data = []
       this.trendChart.xAxisData.forEach(year => {
-        data.push(this.journal.paperCountPYear[year.toString()])
+        data.push(this.confSeries.paperCountPYear[year.toString()])
       });
       this.trendChart.options.series.push({
         name: 'Paper',
@@ -239,11 +239,11 @@ export default {
       console.log(this.trendChart.options)
       trendChart.setOption(this.trendChart.options)
     },
-    getJournal() {
+    getConfSeries() {
       let that = this
-      get(this.jouKey)
+      get(this.confSerKey)
         .then(function(rsp) {
-          that.journal = rsp.data.data
+          that.confSeries = rsp.data.data
           that.setChartData()
         })
         .catch(function(err) {
@@ -252,7 +252,7 @@ export default {
     },
     getTopAuthor(page=0) {
       let that = this
-      listAuthor(this.jouKey, page*10, 10, "citationCount", "DESC")
+      listAuthor(this.confSerKey, page*10, 10, "citationCount", "DESC")
         .then(function(rsp) {
           that.topAuthorTable.authors = rsp.data.data
           that.topAuthorTable.loading = false
@@ -269,7 +269,7 @@ export default {
     },
     getTopPaper(page=0) {
       let that = this
-      listPaper(this.jouKey, page*10, 10, "citationCount", "DESC")
+      listPaper(this.confSerKey, page*10, 10, "citationCount", "DESC")
         .then(function(rsp) {
           that.topPaperTable.papers = rsp.data.data
           that.topPaperTable.loading = false
@@ -286,7 +286,7 @@ export default {
     },
     getPaper(page=0, size=10, sortAttr="", sortType="") {
       let that = this
-      listPaper(this.jouKey, page*size, size, sortAttr, sortType)
+      listPaper(this.confSerKey, page*size, size, sortAttr, sortType)
         .then(function(rsp) {
           that.paperTable.papers = rsp.data.data
           that.getPaperAuthor()
@@ -349,7 +349,7 @@ export default {
     },
   },
   created() {
-    this.getJournal(this.jouKey)
+    this.getConfSeries(this.confSerKey)
     this.getTopAuthor()
     this.getTopPaper()
     this.getPaper()
