@@ -13,8 +13,10 @@
       highlight-current-row
       max-height="400px"
       cell-class-name="pl-2"
+      :row-style="{cursor: 'pointer'}"
       header-cell-class-name="pl-2"
-      :header-cell-style="{'background-color': '#f6f9fc', 'color': '#8898aa'}">
+      :header-cell-style="{'background-color': '#f6f9fc', 'color': '#8898aa'}"
+      @row-click="routeToAuthor">
       <el-table-column
         prop="name"
         label="Name"
@@ -58,5 +60,15 @@ export default {
     return {
     };
   },
+  methods: {
+    routeToAuthor(a) {
+      console.log(a)
+      let authorView = this.$router.resolve({
+        name: 'Author',
+        params: { authorKey: a._key }
+      })
+      window.open(authorView.href);
+    }
+  }
 };
 </script>

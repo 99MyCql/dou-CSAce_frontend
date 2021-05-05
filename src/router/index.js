@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import Field from '@/views/Field.vue'
 import Journal from '@/views/Journal.vue'
 import ConfSeries from '@/views/ConfSeries.vue'
+import Author from '@/views/Author.vue'
 
 const routes = [
   {
@@ -31,7 +32,13 @@ const routes = [
     path: '/confSeries/:confSerKey',
     component: ConfSeries,
     props: true,
-  }
+  },
+  {
+    name: 'Author',
+    path: '/author/:authorKey',
+    component: Author,
+    props: true,
+  },
 ]
 
 const router = createRouter({

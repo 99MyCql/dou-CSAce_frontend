@@ -6,7 +6,7 @@
     <div class="container-fluid">
       <el-breadcrumb separator-class="el-icon-arrow-right" class="h3 border-bottom mt-3 py-3">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="fieldKey != ''">
+        <el-breadcrumb-item v-if="fieldKey">
           {{ fieldKey.slice(2).replace(/_/g, " ") }}
         </el-breadcrumb-item>
         <el-breadcrumb-item>{{ jouKey }}</el-breadcrumb-item>
@@ -348,14 +348,12 @@ export default {
       return numToStr(num)
     },
   },
-  created() {
+  mounted() {
+    this.trendChartInit()
     this.getJournal(this.jouKey)
     this.getTopAuthor()
     this.getTopPaper()
     this.getPaper()
-  },
-  mounted() {
-    this.trendChartInit()
   }
 }
 </script>
