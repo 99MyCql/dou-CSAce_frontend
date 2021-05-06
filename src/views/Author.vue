@@ -14,14 +14,14 @@
         <!-- 期刊简介 -->
         <div class="col-lg-7" v-if="author._key">
           <div class="card h-100">
-            <div class="card-body pt-6 pb-6 pl-5">
+            <div class="card-body pt-6 pb-6 pl-md-5">
               <div>
                 <span class="icon icon-shape bg-danger">
                   <img class="w-100 h-100" src="\img\icons\author.svg" />
                 </span>
                 <span class="text-dark display-3 pl-3">{{ author.name }}</span>
               </div>
-              <div class="pl-5">
+              <div class="pl-2 pl-md-5">
                 <div v-if="author.urls" class="h3 text-muted mt-3"><i class="fas fa-external-link-square-alt mr-3"></i>{{ author.urls }}</div>
               </div>
             </div>

@@ -15,13 +15,18 @@
       cell-class-name="pl-2"
       :row-style="{cursor: 'pointer'}"
       header-cell-class-name="pl-2"
-      :header-cell-style="{'background-color': '#f6f9fc', 'color': '#8898aa'}"
-      @row-click="routeToAuthor">
+      :header-cell-style="{'background-color': '#f6f9fc', 'color': '#8898aa'}">
       <el-table-column
         prop="name"
         label="Name"
         min-width="160"
         show-overflow-tooltip>
+        <template #default="scope">
+          <div style="font-weight: 600;" @click="routeToAuthor(scope.row)">
+            {{ scope.row.name }}
+            <i class="fas fa-external-link-alt ml-1 text-muted"></i>
+          </div>
+        </template>
       </el-table-column>
       <el-table-column
         prop="paperCount"

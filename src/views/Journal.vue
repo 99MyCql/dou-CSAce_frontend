@@ -24,7 +24,7 @@
                 <span class="text-dark display-3 mx-3">{{ journal.shortName }}</span>
                 <span class="text-dark display-3 pl-3 border-left">{{ journal.name }}</span>
               </div>
-              <div class="pl-5">
+              <div class="pl-2 pl-md-5">
                 <div class="h3 text-muted mt-5"><i class="fas fa-layer-group mr-3"></i>{{ journal.category }} 类</div>
                 <div class="h3 text-muted mt-3"><i class="fas fa-book mr-3"></i>{{ journal.publisher }}</div>
                 <div class="h3 text-muted mt-3"><i class="fas fa-external-link-square-alt mr-3"></i>{{ journal.url }}</div>

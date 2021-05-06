@@ -83,6 +83,7 @@
         background
         layout="prev, pager, next"
         :total="paperCount"
+        :pager-count="5"
         @current-change="paperTablePageChang">
       </el-pagination>
     </div>

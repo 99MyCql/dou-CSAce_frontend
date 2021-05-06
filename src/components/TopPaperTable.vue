@@ -32,7 +32,7 @@
       </el-table-column>
       <el-table-column
         label="Venue"
-        min-width="80">
+        min-width="100">
         <template #default="scope">
           {{ scope.row._id.split('-')[1].toUpperCase() }}
         </template>

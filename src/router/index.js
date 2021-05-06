@@ -9,10 +9,6 @@ import Author from '@/views/Author.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/home',
-  },
-  {
-    path: '/home',
     component: Home,
   },
   {
