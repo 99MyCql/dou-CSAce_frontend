@@ -17,3 +17,7 @@ export const listPaper = function(key, offset=0, count=0, sortAttr="", sortType=
     "sortType": sortType
   });
 };
+
+export const listCoAuthor = function(key) {
+  return axios.get(`/api/v1/author/listCoAuthor?key=${key}`);
+};
