@@ -7,13 +7,13 @@
     <div class="collapse navbar-collapse">
       <form v-if="showSearch" class="navbar-search navbar-search-dark form-inline mr-3 d-md-flex ml-md-auto">
         <div class="form-group mb-0">
-          <base-input
+          <!-- <base-input
             placeholder="Search"
             class="input-group-alternative"
             alternative=""
             addon-right-icon="fas fa-search"
           >
-          </base-input>
+          </base-input> -->
         </div>
       </form>
 
@@ -61,11 +61,11 @@
 </template>
 
 <script>
-import BaseInput from "@/components/BaseInput";
+// import BaseInput from "@/components/BaseInput";
 
 export default {
   components: {
-    BaseInput,
+    // BaseInput,
   },
   props: {
     showSearch: {

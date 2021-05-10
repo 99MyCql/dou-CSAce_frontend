@@ -24,7 +24,7 @@ const rspDataFilter = function(data) {
   } else if (data.code === SERVER_ERR_CODE) {
     // 服务端错误
     app.config.globalProperties.$message.error({
-      message: "服务器发生了一些错误",
+      message: data.msg,
     });
     return false;
   } else {
