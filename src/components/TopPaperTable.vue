@@ -21,12 +21,13 @@
         min-width="300"
         show-overflow-tooltip>
         <template #default="scope">
-          <div style="font-weight: 600;">
+          <div style="font-weight: 600;cursor: pointer" @click="routeToPaper(scope.row)">
             <i
               class="fa fa-bookmark mr-1"
               :class="scope.row.type === 2 ? 'text-danger' : 'text-primary'"
             ></i>
             {{ scope.row.title }}
+            <i class="fas fa-external-link-alt ml-1 text-muted"></i>
           </div>
         </template>
       </el-table-column>
@@ -74,5 +75,11 @@ export default {
     return {
     };
   },
+  methods: {
+    routeToPaper(paper) {
+      console.log(paper)
+      window.open(paper.doiUrl, '_blank')
+    }
+  }
 };
 </script>
